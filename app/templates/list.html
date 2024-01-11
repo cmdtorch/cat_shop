@@ -1,0 +1,77 @@
+{% extends "layout.html" %}
+{% block content %}
+
+<main>
+
+  <section class="py-5 text-center container">
+    <div class="row py-lg-5">
+      <div class="col-lg-6 col-md-8 mx-auto">
+        <h1 class="fw-light">FuzzyCats</h1>
+        <p class="lead text-muted">Добро пожаловать в удивительный мир мурчащих четырехлапых друзей – FuzzyCats! 🐾<br> Пушистый рай, где каждая кошка – звезда🌟, а каждый кот – король своего мира!👑</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="album py-5 bg-light">
+    <div class="container">
+
+      <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+
+        {% for cat in cats %}
+        <div class="blog-card">
+            <div class="card shadow">
+              <img src="http://placekitten.com/300/300" style="height: 300px;object-fit: cover;">
+                <div class="card-body">
+                    <small class="d-block mb-2">January 20, 2019</small>
+                    <h2 class="h5"> {{ cat.name }}</h2>
+                </div>
+                <div class="card-footer bg-white border-0 px-0 py-0">
+                    <div class="d-grid">
+                        <a class="btn btn-sm btn-secondary rounded-0 rounded-bottom" href="{{ url_for('cat_detail', pk=cat.id) }}">
+                            <span class="fas fa-book-open me-1"></span>Мяу!
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+      </div>
+        <ul>
+            {% for page in cats.iter_pages() %}
+              {% if page %}
+                {% if page != cats.page %}
+                  <a href="{{ url_for('cats_list', page=page) }}">{{ page }}</a>
+                {% else %}
+                  <strong>{{ page }}</strong>
+                {% endif %}
+              {% else %}
+                <span class=ellipsis>…</span>
+              {% endif %}
+            {% endfor %}
+        </ul>
+
+        <nav aria-label="Page navigation example">
+          <ul class="pagination">
+            <li class="page-item">
+              <a class="page-link" href="#" aria-label="Previous">
+                <span aria-hidden="true">&laquo;</span>
+              </a>
+            </li>
+            <li class="page-item"><a class="page-link" href="#">1</a></li>
+            <li class="page-item"><a class="page-link" href="#">2</a></li>
+            <li class="page-item"><a class="page-link" href="#">3</a></li>
+            <li class="page-item">
+              <a class="page-link" href="#" aria-label="Next">
+                <span aria-hidden="true">&raquo;</span>
+              </a>
+            </li>
+          </ul>
+        </nav>
+
+    </div>
+  </div>
+
+</main>
+
+
+{% endblock %}
