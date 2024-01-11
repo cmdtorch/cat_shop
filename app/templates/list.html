@@ -3,71 +3,101 @@
 
 <main>
 
-  <section class="py-5 text-center container">
-    <div class="row py-lg-5">
-      <div class="col-lg-6 col-md-8 mx-auto">
-        <h1 class="fw-light">FuzzyCats</h1>
-        <p class="lead text-muted">Добро пожаловать в удивительный мир мурчащих четырехлапых друзей – FuzzyCats! 🐾<br> Пушистый рай, где каждая кошка – звезда🌟, а каждый кот – король своего мира!👑</p>
-      </div>
-    </div>
-  </section>
-
   <div class="album py-5 bg-light">
     <div class="container">
+      <div class="row">
 
-      <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+        <aside class="col-md-3">
+          <p>Фильтр</p>
+          <div class="card">
+              <article class="card-group-item">
+                  <header class="card-header">
+                      <h6 class="title">Порода</h6>
+                  </header>
+                  <div class="filter-content">
+                      <div class="card-body">
+                      <form>
+                        {% for breed in breeds %}
+                          <label class="form-check">
+                            <input class="form-check-input breed-input" type="checkbox" value="{{ breed.name }}" {% if breed.name in selected_breeds %} checked {% endif %}>
+                            <span class="form-check-label">
+                              {{ breed.value }}
+                            </span>
+                          </label>
+                        {% endfor %}
+                      </form>
 
-        {% for cat in cats %}
-        <div class="blog-card">
-            <div class="card shadow">
-              <img src="http://placekitten.com/300/300" style="height: 300px;object-fit: cover;">
-                <div class="card-body">
-                    <small class="d-block mb-2">January 20, 2019</small>
-                    <h2 class="h5"> {{ cat.name }}</h2>
-                </div>
-                <div class="card-footer bg-white border-0 px-0 py-0">
-                    <div class="d-grid">
-                        <a class="btn btn-sm btn-secondary rounded-0 rounded-bottom" href="{{ url_for('cat_detail', pk=cat.id) }}">
-                            <span class="fas fa-book-open me-1"></span>Мяу!
-                        </a>
+                      </div> <!-- card-body.// -->
+                  </div>
+              </article> <!-- card-group-item.// -->
+
+          </div> <!-- card.// -->
+          </aside>
+        <div class="col-md-9">
+          <div class="row">
+              <div class="mb-3 d-flex align-items-center col-md-8">
+                <label for="sort_by" class="me-3">Сортировка:</label>
+                <select class="form-select" style="max-width: 200px" aria-label="Default select example" id="sort_by" onchange="change_sort();">
+                  <option value="-date" {% if not sort %} selected {% endif %}>Дата добавления</option>
+                  <option value="-age" {% if sort == '-age' %} selected {% endif %}>Убыванию возраста</option>
+                  <option value="age" {% if sort == 'age' %} selected {% endif %}>Возрастанию возраста</option>
+                </select>
+              </div>
+              <form class="form-inline col-md-4" style="display: flex;justify-content: start;align-items: start;">
+                <input class="form-control mr-sm-2 me-3" type="search" placeholder="Search" aria-label="Search" name="query" value="{% if search_query %} {{ search_query }} {% endif %}">
+                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+              </form>
+          </div>
+          <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+            {% if cats.total > 0 %}
+            {% for cat in cats %}
+            <div class="blog-card">
+                <div class="card shadow">
+                  <img src="{{ cat.image_url }}" style="height: 300px;object-fit: cover;">
+                    <div class="card-body">
+                        <small class="d-block mb-2">Месяцев: {{ cat.age_in_months() }}</small>
+                        <small class="d-block mb-2">Порода: {{ cat.breed.value }}</small>
+                        <h2 class="h5">{{ cat.name }}</h2>
+                    </div>
+                    <div class="card-footer bg-white border-0 px-0 py-0">
+                        <div class="d-grid">
+                            <a class="btn btn-outline-dark flex-shrink-0 m-3 mt-0" href="{{ url_for('cat_detail', pk=cat.id) }}">
+                                <i class="bi-cart-fill me-1"></i>
+                                Мяу!
+                            </a>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-        {% endfor %}
-      </div>
-        <ul>
-            {% for page in cats.iter_pages() %}
-              {% if page %}
-                {% if page != cats.page %}
-                  <a href="{{ url_for('cats_list', page=page) }}">{{ page }}</a>
-                {% else %}
-                  <strong>{{ page }}</strong>
-                {% endif %}
-              {% else %}
-                <span class=ellipsis>…</span>
-              {% endif %}
             {% endfor %}
-        </ul>
-
-        <nav aria-label="Page navigation example">
-          <ul class="pagination">
-            <li class="page-item">
-              <a class="page-link" href="#" aria-label="Previous">
-                <span aria-hidden="true">&laquo;</span>
-              </a>
-            </li>
-            <li class="page-item"><a class="page-link" href="#">1</a></li>
-            <li class="page-item"><a class="page-link" href="#">2</a></li>
-            <li class="page-item"><a class="page-link" href="#">3</a></li>
-            <li class="page-item">
-              <a class="page-link" href="#" aria-label="Next">
-                <span aria-hidden="true">&raquo;</span>
-              </a>
-            </li>
-          </ul>
-        </nav>
-
+            {% else %}
+            <div class="card text-center empty-card" style="width: 100%">
+              <div class="card-body">
+                  <img src="{{ url_for('static', filename='img/cry_cat.jpg') }}" alt="Empty" style="max-width: 200px;">
+                <h5 class="card-title">У нас нет кошек по вашему запросу</h5>
+                <p class="card-text" style="o">
+                  <i> "Когда кошка смотрит на тебя свысока, будто она только что <br> раскрыла твои секреты, которые даже ты сам не знал."</i><br>
+                  <span style="float: right" class="mt-3">- Джейсон Кэтхем</span>
+                </p>
+              </div>
+            </div>
+            {% endif %}
+          </div>
+          <div class="row pt-5">
+            <nav class="d-flex justify-content-center">
+              <ul class="pagination">
+                {% for page in cats.iter_pages() %}
+                {% if page != cats.page %}
+                <li class="page-item"><a class="page-link" href="{{ url_for('cats_list', page=page) }}">{{ page }}</a></li>
+                {% else %}
+                <li class="page-item active" aria-current="page"><a class="page-link" href="#">{{ page }}</a></li>
+                {% endif %}
+                {% endfor %}
+              </ul>
+            </nav>
+            </div>
+        </div>
+      </div>
     </div>
   </div>
 

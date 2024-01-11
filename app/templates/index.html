@@ -1,0 +1,19 @@
+{% extends "layout.html" %}
+{% block content %}
+
+<div class="p-5 text-white banner-cats">
+    <div class="bg-image">
+        <img src="{{ url_for('static', filename='img/cats.jpg') }}" alt="bg">
+    </div>
+  <section class="py-5 text-center container">
+    <div class="row py-lg-5">
+      <div class="col-lg-6 col-md-8 mx-auto">
+        <h1 class="fw-light">FuzzyCats</h1>
+        <p class="lead" style="color: #fff">Добро пожаловать в удивительный мир мурчащих четырехлапых друзей – FuzzyCats! 🐾<br> Пушистый рай, где каждая кошка – звезда🌟, а каждый кот – король своего мира!👑</p>
+          <a class="btn btn-primary btn-lg" href="{{ url_for('cats_list') }}" role="button">МЯУ!</a>
+      </div>
+    </div>
+  </section>
+</div>
+
+{% endblock %}

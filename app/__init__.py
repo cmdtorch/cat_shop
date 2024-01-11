@@ -12,6 +12,12 @@ def create_app():
 
     with app.app_context():
         from . import router
+        from .model import Cat
+        from .utils import create_cats
 
         db.create_all()
+        if not Cat.query.first():
+            create_cats()
         return app
+
+
