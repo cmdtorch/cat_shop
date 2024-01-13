@@ -56,7 +56,7 @@ def cat_detail(pk: int):
 
 
 @app.route('/error_page/')
-def error_page(pk: int):
+def error_page():
     5 / 0
 
 
