@@ -16,7 +16,6 @@
                   </header>
                   <div class="filter-content">
                       <div class="card-body">
-                      <form>
                         {% for breed in breeds %}
                           <label class="form-check">
                             <input class="form-check-input breed-input" type="checkbox" value="{{ breed.name }}" {% if breed.name in selected_breeds %} checked {% endif %}>
@@ -25,7 +24,6 @@
                             </span>
                           </label>
                         {% endfor %}
-                      </form>
 
                       </div> <!-- card-body.// -->
                   </div>

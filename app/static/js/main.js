@@ -21,7 +21,13 @@ breeds.forEach(breed => {
     if (breed.checked) {
         url.searchParams.append('breed', breed.value);
     }else {
+        all = url.searchParams.getAll('breed');
+        all.splice(all.indexOf(breed.value), 1);
         url.searchParams.delete('breed');
+        all.forEach(b => {
+            url.searchParams.append('breed', b);
+        })
+
     }
     location.href = url.toString()
 
