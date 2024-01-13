@@ -1,8 +1,9 @@
+import os
 from os import environ, path
 
 from dotenv import load_dotenv
 
-BASE_DIR = path.abspath(path.dirname(__file__))
+BASE_DIR = path.abspath(os.path.join(path.dirname(__file__), '..'))
 load_dotenv(path.join(BASE_DIR, ".env"))
 
 
@@ -13,7 +14,6 @@ class Config:
     # Flask Config
     FLASK_APP = "wsgi.py"
     FLASK_DEBUG = environ.get("FLASK_DEBUG")
-    SECRET_KEY = environ.get("SECRET_KEY")
 
     # Database
     DB_NAME = environ.get('DB_NAME')
