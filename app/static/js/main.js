@@ -18,6 +18,7 @@ const breeds = document.querySelectorAll(".breed-input");
 breeds.forEach(breed => {
   breed.addEventListener('change', () => {
     let url = new URL(location.href);
+    url.searchParams.delete('page');
     if (breed.checked) {
         url.searchParams.append('breed', breed.value);
     }else {

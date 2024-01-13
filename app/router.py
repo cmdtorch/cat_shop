@@ -53,3 +53,18 @@ def cat_detail(pk: int):
     cat = Cat.query.get(pk)
     related_cats = Cat.query.filter(Cat.id != cat.id).order_by(func.random())[:4]
     return render_template("detail.html", cat=cat, related_cats=related_cats, title=cat.name)
+
+
+@app.route('/error_page/')
+def error_page(pk: int):
+    5 / 0
+
+
+@app.errorhandler(404)
+def page_not_found(e):
+    return render_template('404.html'), 404
+
+
+@app.errorhandler(500)
+def internal_error(e):
+    return render_template('500.html'), 500

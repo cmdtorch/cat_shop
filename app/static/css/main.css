@@ -101,3 +101,14 @@ body {
   text-decoration: none;
 }
 
+.error-img {
+    position: absolute;
+    z-index: -1;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    max-width: 500px;
+    width: 100%;
+    border-radius: 15px;
+    filter: brightness(0.6) blur(1px);
+}
